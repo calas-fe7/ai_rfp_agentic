@@ -1,0 +1,33 @@
+# Agentic Retrieval Configuration
+# Set to true to enable agentic retrieval
+AGENTIC_RETRIEVAL_ENABLED=true
+
+# Azure AI Search endpoint for the knowledge agent
+AGENTIC_RETRIEVAL_SEARCH_ENDPOINT=https://your-search-service.search.windows.net
+
+# Azure AI Search API key (optional if using managed identity)
+AGENTIC_RETRIEVAL_SEARCH_KEY=your-search-api-key
+
+# Name of the knowledge agent
+AGENTIC_RETRIEVAL_AGENT_NAME=rfp-agent
+
+# Name of the search index
+AGENTIC_RETRIEVAL_INDEX_NAME=ai-rfp-project-agentic-index
+
+# Reranker threshold (default: 2.5)
+AGENTIC_RETRIEVAL_RERANKER_THRESHOLD=2.5
+
+# System message for the agent
+AGENTIC_RETRIEVAL_SYSTEM_MESSAGE="A Q&A agent that can answer questions about RFP's (requests for proposals) for the Foundever company. If you do not have the answer, respond with 'I don't know'."
+
+# Azure OpenAI Configuration (required for the agent)
+AZURE_OPENAI_ENDPOINT=https://your-openai-resource.openai.azure.com/
+AZURE_OPENAI_MODEL=gpt-4o-mini
+AZURE_OPENAI_API_VERSION=2025-03-01-preview
+
+# Optional: Azure OpenAI API key (if not using managed identity)
+AZURE_OPENAI_KEY=your-openai-api-key
+
+# Embedding model for vector search
+AZURE_OPENAI_EMBEDDING_DEPLOYMENT=text-embedding-3-large
+AZURE_OPENAI_EMBEDDING_MODEL=text-embedding-3-large
