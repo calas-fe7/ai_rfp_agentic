@@ -64,16 +64,34 @@ class AgenticRetrievalService:
             return None
         
         try:
+            # Log the incoming messages for debugging
+            logging.debug(f"Processing {len(messages)} messages for agentic retrieval")
+            for i, msg in enumerate(messages):
+                logging.debug(f"Message {i}: role='{msg.get('role', 'None')}', content_length={len(str(msg.get('content', '')))}")
+            
             # Convert messages to the format expected by the agent
             agent_messages = []
             for msg in messages:
-                if msg.get("role") != "system":  # Skip system messages
+                # Skip system messages and validate message structure
+                if (msg.get("role") != "system" and 
+                    msg.get("role") in ["user", "assistant"] and 
+                    msg.get("content") and 
+                    isinstance(msg["content"], str) and 
+                    msg["content"].strip()):
+                    
                     agent_messages.append(
                         KnowledgeAgentMessage(
                             role=msg["role"],
                             content=[KnowledgeAgentMessageTextContent(text=msg["content"])]
                         )
                     )
+                else:
+                    logging.debug(f"Skipping message with role='{msg.get('role', 'None')}' and content type={type(msg.get('content'))}")
+            
+            # Check if we have valid messages to process
+            if not agent_messages:
+                logging.warning("No valid messages found for agentic retrieval")
+                return None
             
             # Create retrieval request
             retrieval_request = KnowledgeAgentRetrievalRequest(

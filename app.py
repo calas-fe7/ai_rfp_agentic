@@ -470,8 +470,17 @@ async def complete_chat_request(request_body, request_headers):
             app_settings.agentic_retrieval.enabled and 
             agentic_retrieval_service.is_available()):
             
+            # Filter messages to only include valid ones for agentic retrieval
+            messages_for_retrieval = []
+            for msg in request_body.get("messages", []):
+                if (msg.get("role") in ["user", "assistant"] and 
+                    msg.get("content") and 
+                    isinstance(msg["content"], str) and 
+                    msg["content"].strip()):
+                    messages_for_retrieval.append(msg)
+            
             # Perform agentic retrieval first
-            retrieval_content = agentic_retrieval_service.retrieve(request_body.get("messages", []))
+            retrieval_content = agentic_retrieval_service.retrieve(messages_for_retrieval)
             
             if retrieval_content:
                 # Add the retrieved content as context to the user's message
@@ -572,8 +581,17 @@ async def stream_chat_request(request_body, request_headers):
         app_settings.agentic_retrieval.enabled and 
         agentic_retrieval_service.is_available()):
         
+        # Filter messages to only include valid ones for agentic retrieval
+        messages_for_retrieval = []
+        for msg in request_body.get("messages", []):
+            if (msg.get("role") in ["user", "assistant"] and 
+                msg.get("content") and 
+                isinstance(msg["content"], str) and 
+                msg["content"].strip()):
+                messages_for_retrieval.append(msg)
+        
         # Perform agentic retrieval first
-        retrieval_content = agentic_retrieval_service.retrieve(request_body.get("messages", []))
+        retrieval_content = agentic_retrieval_service.retrieve(messages_for_retrieval)
         
         if retrieval_content:
             # Add the retrieved content as context to the user's message
