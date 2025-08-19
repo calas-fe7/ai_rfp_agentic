@@ -213,10 +213,6 @@ class _SearchCommonSettings(BaseSettings):
     allow_partial_result: bool = False
     include_contexts: Optional[List[str]] = ["citations", "intent"]
     vectorization_dimensions: Optional[int] = None
-    role_information: str = Field(
-        default="You are an AI assistant that helps people find information.",
-        validation_alias="AZURE_OPENAI_SYSTEM_MESSAGE"
-    )
 
     @field_validator('include_contexts', mode='before')
     @classmethod
@@ -352,7 +348,12 @@ class _AzureSearchSettings(BaseSettings, DatasourcePayloadConstructor):
         self.embedding_dependency = \
             self._settings.azure_openai.extract_embedding_dependency()
         parameters = self.model_dump(exclude_none=True, by_alias=True)
-        parameters.update(self._settings.search.model_dump(exclude_none=True, by_alias=True))
+        
+        # Get search settings but exclude role_information as it's not valid for data sources
+        search_settings = self._settings.search.model_dump(exclude_none=True, by_alias=True)
+        if 'role_information' in search_settings:
+            del search_settings['role_information']
+        parameters.update(search_settings)
         
         return {
             "type": self._type,
@@ -425,7 +426,13 @@ class _AzureCosmosDbMongoVcoreSettings(
         self.embedding_dependency = \
             self._settings.azure_openai.extract_embedding_dependency()
         parameters = self.model_dump(exclude_none=True, by_alias=True)
-        parameters.update(self._settings.search.model_dump(exclude_none=True, by_alias=True))
+        
+        # Get search settings but exclude role_information as it's not valid for data sources
+        search_settings = self._settings.search.model_dump(exclude_none=True, by_alias=True)
+        if 'role_information' in search_settings:
+            del search_settings['role_information']
+        parameters.update(search_settings)
+        
         return {
             "type": self._type,
             "parameters": parameters
@@ -497,7 +504,12 @@ class _ElasticsearchSettings(BaseSettings, DatasourcePayloadConstructor):
             self._settings.azure_openai.extract_embedding_dependency() 
             
         parameters = self.model_dump(exclude_none=True, by_alias=True)
-        parameters.update(self._settings.search.model_dump(exclude_none=True, by_alias=True))
+        
+        # Get search settings but exclude role_information as it's not valid for data sources
+        search_settings = self._settings.search.model_dump(exclude_none=True, by_alias=True)
+        if 'role_information' in search_settings:
+            del search_settings['role_information']
+        parameters.update(search_settings)
                 
         return {
             "type": self._type,
@@ -567,7 +579,12 @@ class _PineconeSettings(BaseSettings, DatasourcePayloadConstructor):
         self.embedding_dependency = \
             self._settings.azure_openai.extract_embedding_dependency()
         parameters = self.model_dump(exclude_none=True, by_alias=True)
-        parameters.update(self._settings.search.model_dump(exclude_none=True, by_alias=True))
+        
+        # Get search settings but exclude role_information as it's not valid for data sources
+        search_settings = self._settings.search.model_dump(exclude_none=True, by_alias=True)
+        if 'role_information' in search_settings:
+            del search_settings['role_information']
+        parameters.update(search_settings)
         
         return {
             "type": self._type,
@@ -623,7 +640,12 @@ class _AzureMLIndexSettings(BaseSettings, DatasourcePayloadConstructor):
         **kwargs
     ):
         parameters = self.model_dump(exclude_none=True, by_alias=True)
-        parameters.update(self._settings.search.model_dump(exclude_none=True, by_alias=True))
+        
+        # Get search settings but exclude role_information as it's not valid for data sources
+        search_settings = self._settings.search.model_dump(exclude_none=True, by_alias=True)
+        if 'role_information' in search_settings:
+            del search_settings['role_information']
+        parameters.update(search_settings)
         
         return {
             "type": self._type,
@@ -767,7 +789,12 @@ class _MongoDbSettings(BaseSettings, DatasourcePayloadConstructor):
             self._settings.azure_openai.extract_embedding_dependency()
             
         parameters = self.model_dump(exclude_none=True, by_alias=True)
-        parameters.update(self._settings.search.model_dump(exclude_none=True, by_alias=True))
+        
+        # Get search settings but exclude role_information as it's not valid for data sources
+        search_settings = self._settings.search.model_dump(exclude_none=True, by_alias=True)
+        if 'role_information' in search_settings:
+            del search_settings['role_information']
+        parameters.update(search_settings)
         
         return {
             "type": self._type,
