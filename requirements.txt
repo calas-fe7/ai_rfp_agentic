@@ -4,7 +4,7 @@ openai==1.99.9
 azure-search-documents==11.6.0b12
 azure-identity==1.15.0
 azure-storage-blob==12.17.0
-python-dotenv==1.0.0
+python-dotenv==1.1.1
 azure-cosmos==4.5.0
 quart==0.19.9
 uvicorn==0.34.3
