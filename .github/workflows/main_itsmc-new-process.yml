@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # Testing manually adding the secrets
 
-name: Build and deploy container app to Azure Web App - itsmc-new-process
+name: Build and deploy container app to Azure Web App - ai-rfp-agentic-webapp
 
 on:
   push:
@@ -81,7 +81,7 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'itsmc-container-test'
+        app-name: 'ai-rfp-agentic-webapp'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_test }}
         images: 'testopenaicarlos-g8c9b7hab9dzazeh.azurecr.io/ai-rfp-agentic/aoai-gpt-agentic-webapp:${{ github.sha }}'
